@@ -19,7 +19,7 @@ export default class CalculadoraModel {
     this.#operacao = operacao;
   }
 
-  getValor() {
+  public getValor() {
     if (
       isNaN(parseFloat(this.#valor)) ||
       !isFinite(parseFloat(this.#valor)) ||
@@ -42,7 +42,7 @@ export default class CalculadoraModel {
     }
 
     if (this.#valor.length === 20) {
-      return (this.#valor = this.#valor?.substring(0, 20));
+      return this;
     }
 
     if (
