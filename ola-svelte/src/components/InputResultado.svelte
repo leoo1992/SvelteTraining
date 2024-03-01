@@ -12,6 +12,7 @@
 <input
   maxlength="26"
   bind:value={textoResultado}
+  disabled
   on:change={(e) => {
     textoResultado = e.currentTarget.value;
   }}

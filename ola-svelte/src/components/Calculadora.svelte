@@ -1,83 +1,59 @@
 <script lang="ts">
+  import CalculadoraModel from "../model/CalculadoraModel";
   import Botao from "./Botao.svelte";
   import InputResultado from "./InputResultado.svelte";
   import Linha from "./Linha.svelte";
 
-  let valor: string = "0";
-
-  function handleOnClick(texto: string) {
-    if (!valor || !texto) {
-      valor = "0";
-    }
-
-    if (texto === "0" && valor === "0") {
-      valor = "0";
-      return;
-    }
-
-    if (valor === "0") {
-      valor = texto;
-      return;
-    }
-
-    if (valor.length > 23) {
-      return;
-    }
-    valor = valor + texto;
-  }
-
-  function handleLimpar() {
-    valor = "0";
-  }
-
-  function handleDeletar() {
-    if (valor.length === 1 || !valor || valor === "0") {
-      valor = 0;
-      return;
-    }
-
-    valor = valor.slice(0, -1);
-  }
+  let calc: CalculadoraModel = new CalculadoraModel();
+  const numeroDigitado = (num: string) => (calc = calc.numeroDigitado(num));
+  const virgulaDigitada = () => (calc = calc.virgulaDigitada());
+  const limparValores = () => (calc = calc.limparValores());
+  const deletarUltimoDigitado = () => (calc = calc.deletarUltimoDigitado());
+  const operacaoDigitada = (op: string) => (calc = calc.operacaoDigitada(op));
+  const calcular = () => (calc = calc.calcular());
 </script>
 
 <div class="calculadora">
-  <Linha>
-    <InputResultado textoResultado={valor} />
+  <Linha linhaTexto>
+    <label class="labelCalculadora">Calculadora</label>
   </Linha>
 
   <Linha>
-    <Botao texto=" " destacado />
-    <Botao vermelho texto="Del" destacado OnClick={handleDeletar} />
-    <Botao texto="%" destacado OnClick={handleOnClick} />
-    <Botao texto="/" destacado OnClick={handleOnClick} />
+    <InputResultado textoResultado={calc.getValor()} />
   </Linha>
 
   <Linha>
-    <Botao texto="7" OnClick={handleOnClick} />
-    <Botao texto="8" OnClick={handleOnClick} />
-    <Botao texto="9" OnClick={handleOnClick} />
-    <Botao texto="x" destacado OnClick={handleOnClick} />
+    <Botao normal texto="7" OnClick={numeroDigitado} />
+    <Botao normal texto="8" OnClick={numeroDigitado} />
+    <Botao normal texto="9" OnClick={numeroDigitado} />
+    <Botao texto="*" destacado OnClick={operacaoDigitada} />
   </Linha>
 
   <Linha>
-    <Botao texto="4" OnClick={handleOnClick} />
-    <Botao texto="5" OnClick={handleOnClick} />
-    <Botao texto="6" OnClick={handleOnClick} />
-    <Botao texto="+" destacado OnClick={handleOnClick} />
+    <Botao normal texto="4" OnClick={numeroDigitado} />
+    <Botao normal texto="5" OnClick={numeroDigitado} />
+    <Botao normal texto="6" OnClick={numeroDigitado} />
+    <Botao destacado texto="/" OnClick={operacaoDigitada} />
   </Linha>
 
   <Linha>
-    <Botao texto="1" OnClick={handleOnClick} />
-    <Botao texto="2" OnClick={handleOnClick} />
-    <Botao texto="3" OnClick={handleOnClick} />
-    <Botao texto="-" destacado OnClick={handleOnClick} />
+    <Botao normal texto="1" OnClick={numeroDigitado} />
+    <Botao normal texto="2" OnClick={numeroDigitado} />
+    <Botao normal texto="3" OnClick={numeroDigitado} />
+    <Botao texto="-" destacado OnClick={operacaoDigitada} />
   </Linha>
 
   <Linha>
-    <Botao texto="C" principal OnClick={handleLimpar} />
-    <Botao texto="0" OnClick={handleOnClick} />
-    <Botao texto="," destacado OnClick={handleOnClick} />
-    <Botao texto="=" principal OnClick={handleOnClick} />
+    <Botao vazio texto="" />
+    <Botao normal texto="0" OnClick={numeroDigitado} />
+    <Botao texto="," normal OnClick={virgulaDigitada} />
+    <Botao texto="+" destacado OnClick={operacaoDigitada} />
+  </Linha>
+  
+  <Linha noFinal>
+    <Botao vermelho texto="Del" destacado OnClick={deletarUltimoDigitado} />
+    <Botao texto="C" principal OnClick={limparValores} />
+    <Botao duplo texto="=" principal OnClick={calcular} />
   </Linha>
 </div>
 
@@ -85,15 +61,23 @@
   .calculadora {
     display: flex;
     flex-direction: column;
-    padding: 20px;
+    padding: 10px;
     height: 400px;
     width: 320px;
-    background: rgba(85, 129, 251, 0.697);
+    background: rgba(112, 150, 255, 0.664);
     border-radius: 10px;
     vertical-align: middle;
     justify-content: center;
     align-content: center;
-    box-shadow: 0px 0px 200px rgba(84, 0, 253, 0.407);
-    border: none;
+    box-shadow: 0px 0px 100px rgb(84, 0, 253);
+    border: 2px solid rgba(84, 0, 253, 0.648);
+    margin: 20px;
+  }
+
+  .labelCalculadora {
+    font-weight: bold;
+    color: rgb(0, 46, 253);
+    font-size: x-large;
+    font-family: "Montserrat", sans-serif;
   }
 </style>
