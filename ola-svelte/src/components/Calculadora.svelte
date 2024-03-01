@@ -5,6 +5,10 @@
   import Linha from "./Linha.svelte";
 
   let calc: CalculadoraModel = new CalculadoraModel();
+  let valorCalculadora = "";
+
+  $: valorCalculadora = calc.getValor();
+  
   const numeroDigitado = (num: string) => (calc = calc.numeroDigitado(num));
   const virgulaDigitada = () => (calc = calc.virgulaDigitada());
   const limparValores = () => (calc = calc.limparValores());
@@ -19,7 +23,7 @@
   </Linha>
 
   <Linha>
-    <InputResultado textoResultado={calc.getValor()} />
+    <InputResultado bind:textoResultado={valorCalculadora} />
   </Linha>
 
   <Linha>

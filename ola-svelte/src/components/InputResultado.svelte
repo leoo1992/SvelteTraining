@@ -2,15 +2,15 @@
   export let textoResultado: string;
 
   $: fonteTexto =
-    textoResultado.length > 23
+    textoResultado.length > 20
       ? "f-pequena"
-      : textoResultado.length > 13
+      : textoResultado.length > 10
         ? "f-media"
         : "";
 </script>
 
 <input
-  maxlength="26"
+  maxlength="21"
   bind:value={textoResultado}
   disabled
   on:change={(e) => {
