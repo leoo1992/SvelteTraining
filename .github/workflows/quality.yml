@@ -1,0 +1,24 @@
+name: Quality Gate
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: node --test tests/quality.test.mjs
+      - working-directory: ola-svelte
+        run: npm install --no-audit --no-fund
+      - working-directory: ola-svelte
+        run: npx --yes eslint@9 rollup.config.js
+      - working-directory: ola-svelte
+        run: npm run check
+      - working-directory: ola-svelte
+        run: npm run build
