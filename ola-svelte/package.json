@@ -28,5 +28,8 @@
   "dependencies": {
     "sirv-cli": "^2.0.0",
     "three": "^0.169.0"
+  },
+  "engines": {
+    "node": "24.x"
   }
 }
