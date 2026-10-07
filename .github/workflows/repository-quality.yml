@@ -43,3 +43,5 @@ jobs:
 
       - name: Docker build
         run: docker build -f quality/Dockerfile -t repository-quality .
+
+# RepoScope automatic quality evidence
