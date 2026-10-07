@@ -3,15 +3,15 @@ const LIMPA_TELA = true;
 
 export default class CalculadoraModel {
   #valor: string;
-  #accumulador: number;
+  #accumulador: number | null;
   #limparTela: boolean;
-  #operacao: string;
+  #operacao: string | null;
 
   constructor(
     valor: string = "0",
-    accumulador: number = null,
+    accumulador: number | null = null,
     limparTela: boolean = false,
-    operacao: string = null
+    operacao: string | null = null
   ) {
     this.#valor = valor;
     this.#accumulador = accumulador;
@@ -109,7 +109,7 @@ export default class CalculadoraModel {
     return this.calcular(proximaOperacao);
   }
 
-  calcular(proximaOperacao: string = null) {
+  calcular(proximaOperacao: string | null = null) {
     const aviso = "Operação inválida";
 
     if (this.#valor == "Operação inválida") {
@@ -120,7 +120,7 @@ export default class CalculadoraModel {
       return new CalculadoraModel(aviso, null, NAO_limparTela, null);
     }
 
-    let acumulador = this.#accumulador;
+    let acumulador = this.#accumulador ?? parseFloat(this.#valor);
     if (!this.#operacao) {
       acumulador = parseFloat(this.#valor);
     } else {
